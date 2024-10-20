@@ -1,0 +1,638 @@
+Chapter 1: Basic Data Structures
+Topic 1: Arrays
+Subtopics:
+Finding sums:
+
+cpp
+Copy code
+int sum = 0;
+for(int i = 0; i < n; i++) {
+    sum += arr[i];
+}
+Maximum/Minimum:
+
+cpp
+Copy code
+int max_val = arr[0], min_val = arr[0];
+for(int i = 1; i < n; i++) {
+    max_val = max(max_val, arr[i]);
+    min_val = min(min_val, arr[i]);
+}
+Prefix sums:
+
+cpp
+Copy code
+vector<int> prefix_sum(n + 1, 0);
+for(int i = 1; i <= n; i++) {
+    prefix_sum[i] = prefix_sum[i - 1] + arr[i - 1];
+}
+Sliding window:
+
+cpp
+Copy code
+int window_sum = 0;
+for(int i = 0; i < k; i++) {
+    window_sum += arr[i];
+}
+for(int i = k; i < n; i++) {
+    window_sum += arr[i] - arr[i - k];
+}
+Topic 2: Strings
+Subtopics:
+Reversing a string:
+
+cpp
+Copy code
+string s = "example";
+reverse(s.begin(), s.end());
+Palindrome check:
+
+cpp
+Copy code
+bool is_palindrome(string s) {
+    int n = s.size();
+    for(int i = 0; i < n / 2; i++) {
+        if(s[i] != s[n - i - 1]) return false;
+    }
+    return true;
+}
+String matching (Naive):
+
+cpp
+Copy code
+bool contains(string text, string pattern) {
+    int n = text.size(), m = pattern.size();
+    for(int i = 0; i <= n - m; i++) {
+        if(text.substr(i, m) == pattern) return true;
+    }
+    return false;
+}
+Prefix/Suffix:
+
+cpp
+Copy code
+string prefix = s.substr(0, k);  // First k characters
+string suffix = s.substr(s.size() - k);  // Last k characters
+Topic 3: Stacks and Queues
+Subtopics:
+Stack operations:
+
+cpp
+Copy code
+stack<int> s;
+s.push(1);
+s.push(2);
+s.pop();
+int top = s.top();
+Queue operations:
+
+cpp
+Copy code
+queue<int> q;
+q.push(1);
+q.push(2);
+q.pop();
+int front = q.front();
+Balanced parentheses check:
+
+cpp
+Copy code
+bool is_balanced(string s) {
+    stack<char> st;
+    for(char c : s) {
+        if(c == '(') st.push(c);
+        else if(c == ')') {
+            if(st.empty() || st.top() != '(') return false;
+            st.pop();
+        }
+    }
+    return st.empty();
+}
+Topic 4: Linked Lists
+Subtopics:
+Singly Linked List:
+
+cpp
+Copy code
+struct Node {
+    int data;
+    Node* next;
+    Node(int x) : data(x), next(nullptr) {}
+};
+Inserting at the head:
+
+cpp
+Copy code
+Node* insert_at_head(Node* head, int data) {
+    Node* new_node = new Node(data);
+    new_node->next = head;
+    return new_node;
+}
+Inserting at the end:
+
+cpp
+Copy code
+void insert_at_end(Node* &head, int data) {
+    Node* new_node = new Node(data);
+    if(!head) {
+        head = new_node;
+        return;
+    }
+    Node* temp = head;
+    while(temp->next) temp = temp->next;
+    temp->next = new_node;
+}
+Topic 5: Hashing
+Subtopics:
+Hash map (unordered_map):
+
+cpp
+Copy code
+unordered_map<int, int> freq;
+for(int x : arr) {
+    freq[x]++;
+}
+Frequency counting:
+
+cpp
+Copy code
+unordered_map<char, int> freq;
+for(char c : s) {
+    freq[c]++;
+}
+Detecting duplicates:
+
+cpp
+Copy code
+unordered_set<int> seen;
+for(int x : arr) {
+    if(seen.count(x)) return true;
+    seen.insert(x);
+}
+return false;
+Chapter 2: Basic Algorithms
+Topic 1: Sorting Algorithms
+Subtopics:
+Bubble Sort:
+
+cpp
+Copy code
+for(int i = 0; i < n; i++) {
+    for(int j = 0; j < n - i - 1; j++) {
+        if(arr[j] > arr[j + 1]) swap(arr[j], arr[j + 1]);
+    }
+}
+Merge Sort:
+
+cpp
+Copy code
+void merge_sort(vector<int>& arr, int left, int right) {
+    if(left >= right) return;
+    int mid = (left + right) / 2;
+    merge_sort(arr, left, mid);
+    merge_sort(arr, mid + 1, right);
+    merge(arr, left, mid, right);
+}
+Topic 2: Searching Algorithms
+Subtopics:
+Binary Search:
+cpp
+Copy code
+int binary_search(vector<int>& arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    while(left <= right) {
+        int mid = (left + right) / 2;
+        if(arr[mid] == target) return mid;
+        else if(arr[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+Topic 3: Two-Pointer Technique
+Subtopics:
+Finding pairs with a given sum:
+cpp
+Copy code
+bool has_pair(vector<int>& arr, int target) {
+    int left = 0, right = arr.size() - 1;
+    while(left < right) {
+        int sum = arr[left] + arr[right];
+        if(sum == target) return true;
+        else if(sum < target) left++;
+        else right--;
+    }
+    return false;
+}
+Chapter 3: Mathematical Foundations
+Topic 1: Modular Arithmetic
+Subtopics:
+Modular addition:
+
+cpp
+Copy code
+int mod_add(int a, int b, int mod) {
+    return (a + b) % mod;
+}
+Modular multiplication:
+
+cpp
+Copy code
+int mod_mul(int a, int b, int mod) {
+    return (1LL * a * b) % mod;
+}
+Topic 2: Basic Number Theory
+Subtopics:
+GCD using Euclidean algorithm:
+
+cpp
+Copy code
+int gcd(int a, int b) {
+    while(b) {
+        a %= b;
+        swap(a, b);
+    }
+    return a;
+}
+Prime factorization:
+
+cpp
+Copy code
+vector<int> prime_factors(int n) {
+    vector<int> factors;
+    for(int i = 2; i * i <= n; i++) {
+        while(n % i == 0) {
+            factors.push_back(i);
+            n /= i;
+        }
+    }
+    if(n > 1) factors.push_back(n);
+    return factors;
+}
+Topic 3: Prefix Sum & Difference Arrays
+Subtopics:
+Prefix Sum:
+cpp
+Copy code
+vector<int> prefix_sum(n + 1, 0);
+for(int i = 1; i <= n; i++) {
+    prefix_sum[i] = prefix_sum[i - 1] + arr[i - 1];
+}
+Chapter 4: Greedy Algorithms
+Subtopics:
+Activity selection problem:
+cpp
+Copy code
+sort(activities.begin(), activities.end(), [](auto& a, auto& b) {
+    return a.end < b.end;
+});
+int count = 1, last_end = activities[0].end;
+for(int i = 1; i < activities.size(); i++) {
+    if(activities[i].start >= last_end) {
+        count++;
+        last_end = activities[i].end;
+    }
+}
+Chapter 5: Dynamic Programming (DP) Basics
+Subtopics:
+Fibonacci with memoization:
+cpp
+Copy code
+vector<int> memo(n + 1, -1);
+int fib(int n) {
+    if(n <= 1) return n;
+    if(memo[n] != -1) return memo[n];
+    return memo[n] = fib(n - 1) + fib(n - 2);
+}
+Chapter 6: Graph Algorithms
+Subtopics:
+Breadth-First Search (BFS):
+cpp
+Copy code
+queue<int> q;
+q.push(start);
+vector<bool> visited(n, false);
+visited[start] = true;
+while(!q.empty()) {
+    int node = q.front();
+    q.pop();
+    for(int neighbor : adj[node]) {
+        if(!visited[neighbor]) {
+            q.push(neighbor);
+            visited[neighbor] = true;
+        }
+    }
+}
+Chapter 7: Advanced Graph Algorithms
+Subtopics:
+Shortest path (Dijkstra's Algorithm):
+cpp
+Copy code
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+pq.push({0, start});
+vector<int> dist(n, INT_MAX);
+dist[start] = 0;
+while(!pq.empty()) {
+    int u = pq.top().second;
+    int d = pq.top().first;
+    pq.pop();
+    if(d > dist[u]) continue;
+    for(auto& edge : adj[u]) {
+        int v = edge.first, weight = edge.second;
+        if(dist[u] + weight < dist[v]) {
+            dist[v] = dist[u] + weight;
+            pq.push({dist[v], v});
+        }
+    }
+}
+Chapter 8: Combinatorics
+Subtopics:
+Pascal's Triangle:
+cpp
+Copy code
+vector<vector<int>> pascal(n, vector<int>(n, 1));
+for(int i = 2; i < n; i++) {
+    for(int j = 1; j < i; j++) {
+        pascal[i][j] = pascal[i - 1][j - 1] + pascal[i - 1][j];
+    }
+}
+
+Chapter 9: Advanced Dynamic Programming (DP)
+Subtopics:
+Longest Common Subsequence (LCS):
+
+cpp
+Copy code
+int lcs(string s1, string s2) {
+    int n = s1.size(), m = s2.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= m; j++) {
+            if(s1[i - 1] == s2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+            else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+    return dp[n][m];
+}
+Knapsack Problem (0/1 Knapsack):
+
+cpp
+Copy code
+int knapsack(int W, vector<int>& weights, vector<int>& values, int n) {
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+    for(int i = 1; i <= n; i++) {
+        for(int w = 0; w <= W; w++) {
+            if(weights[i - 1] <= w)
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            else dp[i][w] = dp[i - 1][w];
+        }
+    }
+    return dp[n][W];
+}
+DP on Trees:
+
+cpp
+Copy code
+void dfs(int node, int parent) {
+    for(int child : adj[node]) {
+        if(child != parent) {
+            dfs(child, node);
+            dp[node] += max(0, dp[child]);  // Combine child's contribution
+        }
+    }
+}
+Bitmask DP (Traveling Salesman Problem):
+
+cpp
+Copy code
+int tsp(int mask, int pos, vector<vector<int>>& dist, vector<vector<int>>& dp) {
+    if(mask == (1 << n) - 1) return dist[pos][0]; // All cities visited
+    if(dp[mask][pos] != -1) return dp[mask][pos];
+    int ans = INT_MAX;
+    for(int city = 0; city < n; city++) {
+        if(!(mask & (1 << city))) {
+            ans = min(ans, dist[pos][city] + tsp(mask | (1 << city), city, dist, dp));
+        }
+    }
+    return dp[mask][pos] = ans;
+}
+Chapter 10: Graph Theory
+Subtopics:
+Depth-First Search (DFS):
+
+cpp
+Copy code
+void dfs(int node, vector<bool>& visited, vector<vector<int>>& adj) {
+    visited[node] = true;
+    for(int neighbor : adj[node]) {
+        if(!visited[neighbor]) dfs(neighbor, visited, adj);
+    }
+}
+Breadth-First Search (BFS):
+
+cpp
+Copy code
+void bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
+    queue<int> q;
+    q.push(start);
+    visited[start] = true;
+    while(!q.empty()) {
+        int node = q.front();
+        q.pop();
+        for(int neighbor : adj[node]) {
+            if(!visited[neighbor]) {
+                visited[neighbor] = true;
+                q.push(neighbor);
+            }
+        }
+    }
+}
+Topological Sorting (Kahn’s Algorithm):
+
+cpp
+Copy code
+vector<int> topoSort(int n, vector<vector<int>>& adj) {
+    vector<int> in_degree(n, 0), topo;
+    queue<int> q;
+    for(int i = 0; i < n; i++) {
+        for(int v : adj[i]) in_degree[v]++;
+    }
+    for(int i = 0; i < n; i++) {
+        if(in_degree[i] == 0) q.push(i);
+    }
+    while(!q.empty()) {
+        int u = q.front();
+        q.pop();
+        topo.push_back(u);
+        for(int v : adj[u]) {
+            if(--in_degree[v] == 0) q.push(v);
+        }
+    }
+    return topo;
+}
+Strongly Connected Components (Tarjan’s Algorithm):
+
+cpp
+Copy code
+void tarjan(int u, vector<int>& disc, vector<int>& low, stack<int>& st, vector<bool>& inStack, vector<vector<int>>& adj) {
+    static int time = 0;
+    disc[u] = low[u] = ++time;
+    st.push(u);
+    inStack[u] = true;
+    for(int v : adj[u]) {
+        if(disc[v] == -1) {
+            tarjan(v, disc, low, st, inStack, adj);
+            low[u] = min(low[u], low[v]);
+        } else if(inStack[v]) {
+            low[u] = min(low[u], disc[v]);
+        }
+    }
+    if(low[u] == disc[u]) {
+        while(st.top() != u) {
+            int node = st.top();
+            st.pop();
+            inStack[node] = false;
+        }
+        st.pop();
+        inStack[u] = false;
+    }
+}
+Chapter 11: Shortest Path Algorithms
+Subtopics:
+Dijkstra’s Algorithm:
+
+cpp
+Copy code
+void dijkstra(int src, vector<vector<pair<int, int>>>& adj, vector<int>& dist) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0, src});
+    dist[src] = 0;
+    while(!pq.empty()) {
+        int u = pq.top().second;
+        int d = pq.top().first;
+        pq.pop();
+        if(d > dist[u]) continue;
+        for(auto& edge : adj[u]) {
+            int v = edge.first, weight = edge.second;
+            if(dist[u] + weight < dist[v]) {
+                dist[v] = dist[u] + weight;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+}
+Bellman-Ford Algorithm:
+
+cpp
+Copy code
+void bellman_ford(int src, int n, vector<vector<pair<int, int>>>& edges, vector<int>& dist) {
+    dist[src] = 0;
+    for(int i = 0; i < n - 1; i++) {
+        for(auto& edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            if(dist[u] != INT_MAX && dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+            }
+        }
+    }
+}
+Floyd-Warshall Algorithm:
+
+cpp
+Copy code
+void floyd_warshall(vector<vector<int>>& dist) {
+    int n = dist.size();
+    for(int k = 0; k < n; k++) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(dist[i][k] != INT_MAX && dist[k][j] != INT_MAX)
+                    dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+            }
+        }
+    }
+}
+Chapter 12: Minimum Spanning Tree (MST)
+Subtopics:
+Kruskal’s Algorithm:
+
+cpp
+Copy code
+int kruskal(int n, vector<tuple<int, int, int>>& edges) {
+    sort(edges.begin(), edges.end());
+    DSU dsu(n);
+    int cost = 0;
+    for(auto& [w, u, v] : edges) {
+        if(dsu.find(u) != dsu.find(v)) {
+            cost += w;
+            dsu.union_sets(u, v);
+        }
+    }
+    return cost;
+}
+Prim’s Algorithm:
+
+cpp
+Copy code
+int prim(int n, vector<vector<pair<int, int>>>& adj) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    vector<int> key(n, INT_MAX), parent(n, -1);
+    vector<bool> inMST(n, false);
+    pq.push({0, 0});
+    key[0] = 0;
+    while(!pq.empty()) {
+        int u = pq.top().second;
+        pq.pop();
+        inMST[u] = true;
+        for(auto& [v, weight] : adj[u]) {
+            if(!inMST[v] && weight < key[v]) {
+                key[v] = weight;
+                pq.push({key[v], v});
+                parent[v] = u;
+            }
+        }
+    }
+    return accumulate(key.begin(), key.end(), 0);
+}
+Chapter 13: Flow Algorithms
+Subtopics:
+Edmonds-Karp Algorithm (Ford-Fulkerson for Maximum Flow):
+cpp
+Copy code
+bool bfs(vector<vector<int>>& rGraph, int s, int t, vector<int>& parent) {
+    fill(parent.begin(), parent.end(), -1);
+    queue<int> q;
+    q.push(s);
+    parent[s] = -2;
+    while(!q.empty()) {
+        int u = q.front();
+        q.pop();
+        for(int v = 0; v < rGraph.size(); v++) {
+            if(parent[v] == -1 && rGraph[u][v] > 0) {
+                parent[v] = u;
+                if(v == t) return true;
+                q.push(v);
+            }
+        }
+    }
+    return false;
+}
+int edmonds_karp(int n, vector<vector<int>>& graph, int s, int t) {
+    vector<vector<int>> rGraph = graph;
+    vector<int> parent(n);
+    int maxFlow = 0;
+    while(bfs(rGraph, s, t, parent)) {
+        int pathFlow = INT_MAX;
+        for(int v = t; v != s; v = parent[v]) {
+            int u = parent[v];
+            pathFlow = min(pathFlow, rGraph[u][v]);
+        }
+        for(int v = t; v != s; v = parent[v]) {
+            int u = parent[v];
+            rGraph[u][v] -= pathFlow;
+            rGraph[v][u] += pathFlow;
+        }
+        maxFlow += pathFlow;
+    }
+    return maxFlow;
+}
+               
+               
