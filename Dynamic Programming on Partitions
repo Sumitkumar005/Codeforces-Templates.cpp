@@ -1,0 +1,17 @@
+int f[M], g[M]; // DP arrays for storing results
+memset(f, 0, sizeof(f));
+memset(g, 0, sizeof(g));
+
+for (int i = 0; i <= buc[0]; ++i) {
+    f[buc[0]] = 1; // Base case for DP
+}
+
+// Iterate over each element and update DP
+for (int i = 0; i <= n; ++i) {
+    // Process current bucket and update DP state
+    int lim = buc[0]; // Limit for current partition
+    for (int j = 0; j <= buc[i]; ++j) {
+        // Update DP state based on current partition and prefix sums
+        // ...
+    }
+}
