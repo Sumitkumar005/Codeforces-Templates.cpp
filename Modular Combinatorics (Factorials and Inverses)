@@ -1,0 +1,20 @@
+const int M = 200005;
+int fac[M], ifac[M];
+
+// Precompute factorials and inverse factorials
+void precomputeFactorials(int n) {
+    fac[0] = 1;
+    for (int i = 1; i <= n; ++i) {
+        fac[i] = 1LL * fac[i - 1] * i % mod;
+    }
+    ifac[n] = ksm(fac[n], mod - 2); // Inverse factorial using modular inverse
+    for (int i = n - 1; i >= 0; --i) {
+        ifac[i] = 1LL * ifac[i + 1] * (i + 1) % mod;
+    }
+}
+
+// Calculate combination C(a, b) = a! / (b! * (a-b)!)
+inline int C(int a, int b) {
+    if (a < b) return 0;
+    return 1LL * fac[a] * ifac[b] % mod * ifac[a - b] % mod;
+}
