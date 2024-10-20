@@ -1,0 +1,33 @@
+int cnt = 0, okcnt = 0;
+for(int i = 1; i < n; i++) {
+    if(s[i] == 'L' && s[i + 1] == 'R') cnt++, okcnt += OK[i]; // Count "L...R" transitions
+}
+
+// Handling string updates during queries
+while(q--) {
+    cin >> x;
+    if(s[x] == 'L'){
+        if(s[x + 1] == 'R') cnt--, okcnt -= OK[x]; // Remove the "L...R" transition
+        if(s[x - 1] == 'L') cnt++, okcnt += OK[x - 1]; // Add a "L...R" transition
+        s[x] = 'R'; // Change character from 'L' to 'R'
+    } else { // Change from 'R' to 'L'
+        if(s[x + 1] == 'R') cnt++, okcnt += OK[x];
+        if(s[x - 1] == 'L') cnt--, okcnt -= OK[x - 1];
+        s[x] = 'L';
+    }
+    // Output the result
+    if(cnt == okcnt) cout << "YES\n";
+    else cout << "NO\n";
+}
+
+and  
+
+Tracking Valid Subarray Configurations
+
+bool OK[M]; // Array to mark valid positions
+for(int i = 1; i <= n; i++) {
+    cT.mdf(a[i], 1); // Update BIT with the value of the array element
+    if(cT.ask(i) == i) OK[i] = 1; // Mark if prefix sum equals the index (valid configuration)
+}
+
+Marking Valid Configurations: Use the OK[] array (or similar) to track whether a particular index satisfies a condition, such as having the correct prefix sum or being part of a valid subarray.
