@@ -1,0 +1,26 @@
+struct ST{
+    #define mid ((l+r)>>1)
+    int pcnt; // persistent node counter
+    int xds[M<<5], ls[M<<5], rs[M<<5]; // tree structure (values, left, and right children)
+
+    inline void pushup(int now){
+        xds[now] = max(xds[ls[now]], xds[rs[now]]); // merge left and right values
+    }
+
+    // Modify the segment tree at position `pos` to value `v`, based on a previous version `x`.
+    int mdf(int x, int l, int r, int pos, int v){
+        int now = ++pcnt; // create a new node
+        if (l == r) return xds[now] = v, now; // if leaf node, assign the value
+        if (pos <= mid) ls[now] = mdf(ls[x], l, mid, pos, v), rs[now] = rs[x];
+        else rs[now] = mdf(rs[x], mid+1, r, pos, v), ls[now] = ls[x];
+        return pushup(now), now; // push up the changes
+    }
+
+    // Range maximum query from `sl` to `sr` in the current version of the tree `now`
+    int ask(int now, int l, int r, int sl, int sr){
+        if (sl <= l && r <= sr) return xds[now]; // if segment completely within range
+        if (sl > mid) return ask(rs[now], mid+1, r, sl, sr);
+        if (sr <= mid) return ask(ls[now], l, mid, sl, sr);
+        return max(ask(ls[now], l, mid, sl, sr), ask(rs[now], mid+1, r, sl, sr)); // merge the results
+    }
+};
