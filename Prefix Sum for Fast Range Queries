@@ -1,0 +1,6 @@
+int buc[M + 5], pbuc[M]; // Bucket for element frequencies and its prefix sum
+
+// Calculate prefix sum of bucket
+for (int i = n; i >= 0; --i) {
+    pbuc[i] = pbuc[i + 1] + buc[i];
+}
