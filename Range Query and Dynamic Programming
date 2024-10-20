@@ -1,0 +1,13 @@
+for(int i = 1; i <= n; i++) {
+    rt[i] = rt[i-1]; // carry forward the previous version of the segment tree
+    for(auto p : pos[i]) {
+        rt[i] = T.mdf(rt[i], 1, n, p, i); // modify segment tree based on current element
+    }
+}
+
+// DP transition to check if subarray can be considered "valid"
+for(int i = 1; i <= n; i++) {
+    if(pre[i] && i - pre[i] > 1)
+        f[i] = T.ask(rt[pre[i]-1], 1, n, pre[i]+1, i-1); // query previous range in the segment tree
+}
+for(int i = 1; i <= n; i++) f[i] = max(f[i], f[i-1]); // propagate maximum values
