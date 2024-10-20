@@ -1,0 +1,23 @@
+struct BIT{
+    int t[M]; // array for storing BIT data
+
+    // Modify function: Adds value `v` to the element at position `x`
+    inline void mdf(int x, int v){
+        while(x <= n){
+            t[x] += v; // update value at index
+            x += (x & -x); // move to the next responsible index
+        }
+    }
+
+    // Query function: Returns the prefix sum from 1 to x
+    inline int ask(int x){
+        int res = 0;
+        while(x > 0){
+            res += t[x]; // accumulate prefix sum
+            x -= (x & -x); // move to the previous responsible index
+        }
+        return res;
+    }
+};
+
+##Binary Indexed Tree (BIT) is ideal for problems that require frequent range sum queries and point updates, especially when the array is large and updates are frequent.
