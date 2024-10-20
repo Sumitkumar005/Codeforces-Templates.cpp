@@ -1,0 +1,11 @@
+int rt[M];  // root nodes of different versions of the segment tree
+int f[M], pre[M]; // DP array and array to store previous occurrences of elements
+int lst[M]; // last occurrence of each element
+vector<int> pos[M]; // positions of elements
+
+// Preprocess the array to build useful structures
+for(int i = 1; i <= n; i++) {
+    pre[i] = lst[a[i]]; // store last occurrence of each element
+    pos[pre[i]].push_back(i); // store current index at last occurrence position
+    lst[a[i]] = i; // update the last occurrence
+}
