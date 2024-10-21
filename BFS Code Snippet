@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int M = 1505; // Maximum size
+vector<int> E[M << 1]; // Adjacency list
+int DEG[M << 1]; // In-degree array
+bool VIS[M << 1]; // Visited array
+queue<int> q; // BFS queue
+
+// Function to add edges
+inline void addE(int u, int v) {
+    E[u].push_back(v);
+    DEG[v]++;
+}
+
+// BFS function
+bool bfs(int target) {
+    for (int i = 1; i <= m + 1; i++) {
+        if (DEG[i] == 0) q.push(i); // Initialize BFS with nodes of in-degree 0
+    }
+    
+    while (!q.empty()) {
+        int u = q.front(); q.pop(); // Get the front element
+        if (u == target) return true; // Check if we reached the target
+        
+        // Process each adjacent node
+        for (auto p : E[u]) {
+            DEG[p]--; // Decrease in-degree of adjacent node
+            if (DEG[p] == 0) {
+                q.push(p); // Add to queue if in-degree becomes 0
+            }
+        }
+    }
+    return false; // Target not reached
+}
+
+
+namespace HASH {
+	const int base = 1507, mod = 998244353;
+	inline int gVal(int *P) {
+		int res = 0;
+		for(int i = 1; i <= m; i++) res = (1ll * res * base + P[i]) % mod;
+		return res;
+	}
+}
