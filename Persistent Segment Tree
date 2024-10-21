@@ -108,3 +108,11 @@ Managing dynamic connectivity in a grid.
 Grid-Based Problems:
 Problems that involve checking connectivity based on certain rules.
 
+Connected Components Count:
+
+cpp
+Copy code
+for (int j = 1; j <= m; j++) 
+    if (fa[j] && find(j) <= m && !vis[find(j)]) cnt++, vis[find(j)] = 1;
+Use: To count unique components in a grid or matrix context. Can be adapted for various traversal techniques like DFS or BFS.
+
