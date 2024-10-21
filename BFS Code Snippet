@@ -43,3 +43,44 @@ namespace HASH {
 		return res;
 	}
 }
+
+
+DFS Function:
+
+This snippet is useful for augmenting path searches in bipartite graphs:
+cpp
+Copy code
+bool dfs(int now, int tg) {
+    if (visT[now] == tg) return 0;
+    visT[now] = tg;
+    for (auto p : E[now]) {
+        if (!mtch[p] || dfs(mtch[p], tg)) {
+            mtch[p] = now;
+            return 1;
+        }
+    }
+    return 0;
+}
+Graph Initialization:
+
+Use this snippet to initialize a 2D array representing a graph:
+cpp
+Copy code
+for (int i = 1; i <= n; i++) 
+    for (int j = 1; j <= n; j++) 
+        G[i][j] = -1; // Initialize with -1 or another sentinel value
+Fast Input/Output:
+
+This is crucial for performance in competitive programming:
+cpp
+Copy code
+ios::sync_with_stdio(0);
+cin.tie(0), cout.tie(0);
+Building Adjacency List:
+
+Reuse this method for constructing an adjacency list from edges:
+cpp
+Copy code
+for (int j = 1; j <= m; j++) 
+    if (U[j] != i && V[j] != i) 
+        E[U[j]].push_back(V[j]);
