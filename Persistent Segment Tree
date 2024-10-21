@@ -24,3 +24,87 @@ struct ST{
         return max(ask(ls[now], l, mid, sl, sr), ask(rs[now], mid+1, r, sl, sr)); // merge the results
     }
 };
+
+
+
+#####Segment Tree Functions
+
+int ls[M << 1], rs[M << 1], pcnt = 1;
+info xds[M << 1];  // Segment tree nodes array
+
+void build(int now, int l, int r) {
+    if (l == r) {
+        int lst = 1;
+        xds[now].l = xds[now].r = l;
+        for (int i = 2; i <= n + 1; i++)
+            if (a[i][l] != a[lst][l]) {
+                for (int j = lst + 1; j < i; j++) xds[now].Lfa[j] = id[lst][l];
+                xds[now].cnt++, lst = i;
+            }
+        memcpy(xds[now].Rfa, xds[now].Lfa, sizeof xds[now].Rfa);
+        return;
+    }
+    build(ls[now] = ++pcnt, l, mid), build(rs[now] = ++pcnt, mid + 1, r);
+    return pushup(now);
+}
+
+inline void pushup(int now) {
+    xds[now] = xds[ls[now]] ^ xds[rs[now]];
+}
+
+inline info ask(int now, int l, int r, int sl, int sr) {
+    if (sl <= l && r <= sr) return xds[now];
+    if (sl > mid) return ask(rs[now], mid + 1, r, sl, sr);
+    if (sr <= mid) return ask(ls[now], l, mid, sl, sr);
+    return ask(ls[now], l, mid, sl, sr) ^ ask(rs[now], mid + 1, r, sl, sr);
+}
+
+
+########Segment Tree Node Struct (info)
+
+struct info {
+    int Lfa[11], Rfa[11];  // Left and Right boundary DSU roots for each row
+    int cnt, l, r;         // Number of components, left and right boundaries
+};
+
+// Operator to merge two `info` nodes in segment tree
+inline info operator^(const info &x, const info &y) {
+    info res;
+    memcpy(res.Lfa, x.Lfa, sizeof x.Lfa);
+    memcpy(res.Rfa, y.Rfa, sizeof y.Rfa);
+    res.l = x.l, res.r = y.r;
+    res.cnt = x.cnt + y.cnt;
+
+    for (int i = 1; i <= n; i++) fa[id[i][x.r]] = x.Rfa[i], fa[id[i][x.l]] = x.Lfa[i];
+    for (int i = 1; i <= n; i++) fa[id[i][y.l]] = y.Lfa[i], fa[id[i][y.r]] = y.Rfa[i];
+    for (int i = 1; i <= n; i++)
+        if (a[i][x.r] == a[i][y.l] && find(id[i][x.r]) ^ find(id[i][y.l]))
+            fa[find(id[i][x.r])] = find(id[i][y.l]), res.cnt--;
+    for (int i = 1; i <= n; i++) res.Lfa[i] = find(id[i][x.l]), res.Rfa[i] = find(id[i][y.r]);
+    for (int i = 1; i <= n; i++) res.Lfa[i] = (res.Lfa[i] == id[i][x.l] ? 0 : res.Lfa[i]), res.Rfa[i] = (res.Rfa[i] == id[i][y.r] ? 0 : res.Rfa[i]);
+    
+    for (int i = 1; i <= n; i++) fa[id[i][x.r]] = fa[id[i][y.l]] = fa[id[i][y.r]] = fa[id[i][x.l]] = fa[x.Rfa[i]] = fa[y.Lfa[i]] = fa[y.Rfa[i]] = fa[x.Lfa[i]] = 0;
+
+    return res;
+}
+
+
+#######DSU (Disjoint Set Union) Functions
+const int M = 1e6 + 5;
+int fa[M];  // DSU parent array
+
+inline int find(int x) {
+    if (!fa[x]) return x;
+    return fa[x] = find(fa[x]);  // Path compression
+}
+
+
+Segment Tree Problems:
+Range sum queries
+Range minimum or maximum queries
+DSU Problems:
+Counting connected components in a graph after edge additions or removals.
+Managing dynamic connectivity in a grid.
+Grid-Based Problems:
+Problems that involve checking connectivity based on certain rules.
+
